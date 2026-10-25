@@ -1,4 +1,5 @@
 name: Build Ghidra ARM64 Decompiler
+
 on:
   workflow_dispatch:
 
@@ -18,12 +19,9 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Make Gradle Wrapper Executable
-        run: chmod +x support/gradle/gradlew
-
-      - name: Build Native Decompiler for Linux ARM64
+      - name: Make Gradle Wrapper Executable & Build Natives
         run: |
-          cd support/gradle
+          chmod +x gradlew
           ./gradlew buildNatives_linux_arm_64
 
       - name: Upload Decompiler Binary Artifact
