@@ -21,6 +21,9 @@ jobs:
       - name: Make Gradle Wrapper Executable
         run: chmod +x ./gradlew
 
+      - name: Fetch Build Dependencies (creates flatRepo)
+        run: ./gradlew --init-script gradle/support/fetchDependencies.gradle init
+
       - name: Build Native Decompiler for Linux ARM64
         run: ./gradlew buildNatives_linux_arm_64
 
