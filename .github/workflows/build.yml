@@ -1,5 +1,4 @@
 name: Build Ghidra ARM64 Decompiler
-
 on:
   workflow_dispatch:
 
@@ -19,13 +18,17 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Make Gradle Wrapper Executable & Build Natives
-        run: |
-          chmod +x gradlew
-          ./gradlew buildNatives_linux_arm_64
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
+
+      - name: Build Native Decompiler for Linux ARM64
+        run: ./gradlew buildNatives_linux_arm_64
+
+      - name: Locate decompile binary
+        run: find . -name decompile -type f -path "*linux_arm_64*" -exec ls -lh {} \; -exec cp {} ./decompile-output \;
 
       - name: Upload Decompiler Binary Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ghidra-linux-arm64-decompiler
-          path: Ghidra/Features/Decompiler/build/os/linux_arm_64/decompile
+          path: decompile-output
