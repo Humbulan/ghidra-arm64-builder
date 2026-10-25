@@ -8,3 +8,4 @@ ghidra-bin/
 .DS_Store
 Thumbs.db
 *.log
+decompile
