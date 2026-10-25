@@ -18,17 +18,17 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Make Gradle Wrapper Executable
-        run: chmod +x ./gradlew
-
-      - name: Create flatRepo directory (required before Gradle evaluates the project)
-        run: mkdir -p dependencies/flatRepo flatRepo
+      - name: Install Gradle 8.5
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
+          unzip -q gradle-8.5-bin.zip
+          echo "$PWD/gradle-8.5/bin" >> $GITHUB_PATH
 
       - name: Fetch Build Dependencies
-        run: ./gradlew -I gradle/support/fetchDependencies.gradle init
+        run: gradle -I gradle/support/fetchDependencies.gradle -DhideDownloadProgress -DnoEclipse
 
       - name: Build Native Decompiler for Linux ARM64
-        run: ./gradlew buildNatives_linux_arm_64
+        run: gradle buildNatives_linux_arm_64
 
       - name: Locate decompile binary
         run: find . -name decompile -type f -path "*linux_arm_64*" -exec ls -lh {} \; -exec cp {} ./decompile-output \;
