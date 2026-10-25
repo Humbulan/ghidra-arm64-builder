@@ -54,3 +54,10 @@ uploads `decompile` as an artifact. Total: ~2 min.
 ## License
 
 MIT
+
+## Note on Android / Termux
+
+This binary is glibc-linked (`/lib/ld-linux-aarch64.so.1`).
+It runs inside proot Ubuntu or any glibc Linux, but not
+directly under Termux's Bionic linker. Use
+`proot-distro login ubuntu` and install it in the container.
